@@ -1,0 +1,114 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "145727",
+      "name": "搜索_填充",
+      "font_class": "sousuotianchong",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    },
+    {
+      "icon_id": "201644",
+      "name": "3.1 全部商品",
+      "font_class": "31quanbushangpin",
+      "unicode": "f0219",
+      "unicode_decimal": 983577
+    },
+    {
+      "icon_id": "577374",
+      "name": "通知",
+      "font_class": "tongzhi",
+      "unicode": "e759",
+      "unicode_decimal": 59225
+    },
+    {
+      "icon_id": "666885",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e68f",
+      "unicode_decimal": 59023
+    },
+    {
+      "icon_id": "792434",
+      "name": "dian-9个点",
+      "font_class": "dian9gedian",
+      "unicode": "e6f8",
+      "unicode_decimal": 59128
+    },
+    {
+      "icon_id": "1079614",
+      "name": "3D touch_商品列表",
+      "font_class": "3dtouchshangpinliebiao",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "1304947",
+      "name": "菜单",
+      "font_class": "caidan",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "5248509",
+      "name": "折叠",
+      "font_class": "zhedie",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "6129106",
+      "name": "69上升、增加",
+      "font_class": "shangshengzengjia",
+      "unicode": "e776",
+      "unicode_decimal": 59254
+    },
+    {
+      "icon_id": "6129107",
+      "name": "70下降、减少",
+      "font_class": "xiajiangjianshao",
+      "unicode": "e777",
+      "unicode_decimal": 59255
+    },
+    {
+      "icon_id": "6554427",
+      "name": "订单列表",
+      "font_class": "dingdanliebiao",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "7499627",
+      "name": "商品列表",
+      "font_class": "shangpinliebiao",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "11441202",
+      "name": "仓库库存",
+      "font_class": "cangkukucun",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "18301172",
+      "name": "下拉菜单",
+      "font_class": "xialacaidan",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "20869466",
+      "name": "折叠箭头_Black@2x",
+      "font_class": "zhediejiantou_Black2x",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    }
+  ]
+}
