@@ -18,7 +18,7 @@ h1 {
 .panel {
   background-color: #fff;
   border-radius   : 5px;
-  margin          : 15px;
+  margin          : 10px;
   padding         : 15px;
   box-sizing      : border-box;
 }
@@ -28,13 +28,13 @@ h1 {
 }
 
 .overview {
-  width: 400px;
+  width: 340px;
 }
 
 .overview .item {
   float : left;
-  width : 170px;
-  height: 140px;
+  width : 145px;
+  height: 120px;
 }
 
 .overview .item h4 {
@@ -53,32 +53,70 @@ h1 {
   color      : #6c757d;
 }
 
-.overview .item p {
-  font-size  : 14px;
-  margin-top : 12px;
-  color      : #98a6ad;
-  font-weight: normal;
-}
-
-.overview .item .iconfont {
-  font-size: 18px;
-}
-
-.overview .item .up {
-  color: #0acf97;
-}
-
-.overview .item .down {
-  color: #fa5c7c;
-}
-
 .line {
-  flex: 1;
+  flex       : 1;
+  margin-left: 0;
 }
 
 .bar {
+  width         : 100%;
+  height        : 300px;
+  display       : flex;
+  flex-direction: column;
+}
+
+.bar .title {
+  height         : 30px;
+  display        : flex;
+  justify-content: space-between;
+  align-items    : center;
+  position       : relative;
+}
+
+.bar .title h2 {
+  font-size: 18px;
+}
+
+.bar .barChart {
+  flex: 1;
+}
+
+.bar .iconfont {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  font-size : 12px;
+  position  : absolute;
+  right     : 0px;
+  top       : 30px;
+
+  /* background-color: #f1f1f1; */
+  width        : 100px;
+  border-radius: 3px;
+  display      : none;
+  z-index      : 1;
+}
+
+.bar ul li {
+  /* line-height: 24px; */
+  padding   : 5px;
+  box-shadow: #f1f1f1 1px 1px 4px 0px;
+}
+
+.bar ul li a {
+  color          : #6d767e;
+  text-decoration: none;
+}
+
+.pie {
+  flex: 1;
+}
+
+.map {
   width : 600px;
-  height: 300px;
+  height: 400px;
 }
 
 .pie {

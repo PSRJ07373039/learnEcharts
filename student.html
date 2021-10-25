@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./css/easydialog.css">
+  <link rel="stylesheet" href="./css/student.css">
+</head>
+
+<body>
+  <header class="header">
+    <h1>学员信息</h1>
+    <button type="button" class="btn addStu">添加学员</button>
+  </header>
+
+
+  <table class="table">
+    <colgroup>
+      <col width="10%">
+      <col width="12%">
+      <col width="10%">
+      <col width="10%">
+      <col width="12%">
+      <col width="12%">
+      <col width="20%">
+      <col />
+    </colgroup>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>性别</th>
+        <th>期望薪资</th>
+        <th>实际薪资</th>
+        <th>籍贯</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10</td>
+        <td>张三</td>
+        <td>20</td>
+        <td>男</td>
+        <td>12000</td>
+        <td>14000</td>
+        <td>河北省承德市围场县</td>
+        <td>
+          <button type="button" class="btn">修改</button>
+          <button type="button" class="btn">删除</button>
+        </td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>张三</td>
+        <td>20</td>
+        <td>男</td>
+        <td>12000</td>
+        <td>14000</td>
+        <td>河北省</td>
+        <td>
+          <button type="button" class="btn">修改</button>
+          <button type="button" class="btn">删除</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="box">
+    <div class="title">
+      <h2>学员信息录入</h2>
+      <span class="close">关闭</span>
+    </div>
+    <form action="">
+      <div class="form-item">
+        <span>姓名：</span>
+        <input type="text" class="input-text">
+      </div>
+      <div class="form-item">
+        <span>性别：</span>
+        <input type="radio" class="input-radio">男&nbsp;
+        <input type="radio" class="input-radio">女
+      </div>
+      <div class="form-item">
+        <span>住址：</span>
+        <select name="" id="">
+          <option value="">北京</option>
+          <option value="">河北</option>
+        </select>
+        <select name="" id="">
+          <option value="">北京</option>
+          <option value="">河北</option>
+        </select>
+        <select name="" id="">
+          <option value="">北京</option>
+          <option value="">河北</option>
+        </select>
+        <br>
+        <input type="text" class="input-text">
+      </div>
+      <div class="form-item">
+        <button class="btn">确认添加</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="./js/jquery-3.6.0.min.js"></script>
+  <script src="./js/easydialog.js"></script>
+  <script>
+    $('.addStu').on('click', function () {
+      easyDialog.open({
+        container: 'box'
+      });
+    })
+
+    $('#box .title .close').on('click', function () {
+      easyDialog.close();
+    })
+
+  </script>
+</body>
+
+</html>
