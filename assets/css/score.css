@@ -12,60 +12,34 @@ body {
 }
 
 .header {
+  height: 36px !important;
   display        : flex;
   justify-content: space-between;
   align-items    : center;
 }
 
-h1 {
+.header h1 {
   font-size  : 18px;
-  line-height: 40px;
-}
-
-.btn {
-  outline      : none;
-  border       : solid 1px #ccc;
-  color        : #6d767e;
-  border-radius: 3px;
-  padding      : 2px 4px;
-  cursor       : pointer;
-}
-
-.input-text {
-  border       : solid 1px #ccc;
-  outline      : none;
-  font-family  : Arial, Helvetica, sans-serif;
-  border-radius: 3px;
-  height       : 24px;
-  box-sizing   : border-box;
-  padding      : 2px 0 2px 5px;
-  color        : #6d767e;
-}
-
-select {
-  color       : #6d767e;
-  outline     : none;
-  border      : solid 1px #ccc;
-  margin-right: 5px;
-  height      : 24px;
+  margin-bottom: 0 !important;
 }
 
 /* 表格 */
 .table {
-  background-color: #fff;
   margin          : 10px auto;
   width           : 100%;
   border-left     : solid 1px #ccc;
   border-top      : solid 1px #ccc;
   border-spacing  : 0;
   border-radius   : 4px;
+  background-color: #fff;
+  font-size       : 12px;
 }
 
 .table th,
 .table td {
   border-right : solid 1px #ccc;
   border-bottom: solid 1px #ccc;
-  padding      : 2px;
+  padding      : 8px 0;
   text-align   : center;
 }
 
@@ -79,4 +53,39 @@ select {
 
 .table tbody tr:last-child td:last-child {
   border-radius: 0 0 4px 0;
+}
+.table tr {
+  line-height: 32px;
+}
+/* .btn-primary {
+  background-color: #747ced !important;
+  border-color: #747ced !important;
+} */
+.table .btn-sm {
+  zoom: 0.8 !important;
+}
+.float {
+  float: right;
+  margin-bottom: 10px;
+}
+.flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+@media (min-width: 576px) {
+  .modal-dialog {
+  width:385px !important;
+}
+}
+.flex {
+  display: flex;
+}
+.col-auto  {
+  height: 30px !important;
+  margin-top: 0 !important;
+}
+.col-form-label {
+  font-size: 14px !important;
 }

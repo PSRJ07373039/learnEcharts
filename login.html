@@ -10,6 +10,48 @@
 
 <body>
   <h1>登录</h1>
+  <form action="" class="register">
+    <input type="text" name="username">
+    <input type="text" name="password">
+    <button>注册</button>
+  </form>
+  <hr>
+  <form action="" class="login">
+    <input type="text" name="username">
+    <input type="text" name="password">
+    <button>登录</button>
+  </form>
+  <hr>
+  <button type="button" id="init">初始化</button>
+
+  <script src="./assets/lib/jquery-3.6.0.min.js"></script>
+  <script src="./assets/lib/axios.js"></script>
+  <script src="./assets/js/common.js"></script>
+  <script>
+    // 注册
+    $('.register').on('submit', function (e) {
+      e.preventDefault();
+      axios.post('/api/register', $(this).serialize()).then(({ data: res }) => {
+        console.log(res);
+      });
+    })
+
+    // 登录
+    $('.login').on('submit', function (e) {
+      e.preventDefault();
+      axios.post('/api/login', $(this).serialize()).then(({ data: res }) => {
+        localStorage.setItem('token', res.token);
+        console.log(res);
+      });
+    })
+
+    // 初始化
+    $('#init').on('click', function () {
+      axios.get('/init/data').then(result => {
+        console.log(result);
+      })
+    })
+  </script>
 </body>
 
 </html>

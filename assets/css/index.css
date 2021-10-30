@@ -60,7 +60,7 @@ a {
 
 .nav .active {
   color           : #fff;
-  background-color: #5270e7;
+  background-color: #0d6efd;
 }
 
 .nav .toggle {
@@ -155,7 +155,7 @@ a {
   border          : 0 none;
   outline         : none;
   height          : 40px;
-  background-color: #727cf5;
+  background-color: #0d6efd;
   border-radius   : 0 5px 5px 0;
   width           : 80px;
   color           : #fefeff

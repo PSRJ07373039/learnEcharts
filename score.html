@@ -6,55 +6,82 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="./css/score.css">
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/css/score.css">
 </head>
 
 <body>
-  <header class="header">
-    <h1>学员信息</h1>
-    <select name="" id="">
-      <option value="">第一次考试</option>
-      <option value="">第二次考试</option>
-      <option value="">第三次考试</option>
-    </select>
-  </header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid header">
+      <h1>学员成绩</h1>
+    </div>
+  </nav>
 
-  <table class="table">
+
+  <!-- table-striped隔行换色 -->
+  <table class="table table-striped">
     <colgroup>
-      <col width="20%">
-      <col width="20%">
-      <col width="20%">
-      <col />
+      <col width="14%">
+      <col width="16%">
+      <col width="14%">
+      <col width="14%">
+      <col width="14%">
+      <col width="14%">
+      <col width="14%">
     </colgroup>
     <thead>
       <tr>
-        <th>学员ID</th>
-        <th>姓名</th>
-        <th>序号</th>
-        <th>成绩</th>
+        <th scope="col">学员ID</th>
+        <th scope="col">姓名</th>
+        <th scope="col">第1次成绩</th>
+        <th scope="col">第2次成绩</th>
+        <th scope="col">第3次成绩</th>
+        <th scope="col">第4次成绩</th>
+        <th scope="col">第5次成绩</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>10</td>
+        <th scope="row">10</th>
         <td>张三</td>
-        <td>1</td>
-        <td>
-          <input type="number" class="input-text">
-          <button type="button" class="btn">确定</button>
-        </td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
       </tr>
       <tr>
-        <td>10</td>
+        <th scope="row">10</th>
         <td>张三</td>
-        <td>1</td>
-        <td>
-          <input type="number" class="input-text">
-          <button type="button" class="btn">确定</button>
-        </td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
+      </tr>
+      <tr>
+        <th scope="row">10</th>
+        <td>张三</td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
+      </tr>
+      <tr>
+        <th scope="row">10</th>
+        <td>张三</td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
+        <td>70</td>
       </tr>
     </tbody>
   </table>
+
+  <script src="./assets/lib/jquery-3.6.0.min.js"></script>
+  <script src="./assets/lib/bootstrap.min.js"></script>
 </body>
 
 </html>
