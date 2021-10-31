@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1634548388595') format('truetype');
+  src: url('iconfont.ttf?t=1635692100100') format('truetype');
 }
 
 .iconfont {
@@ -11,63 +11,55 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-sousuotianchong:before {
-  content: "\e694";
+.icon-mima:before {
+  content: "\e620";
 }
 
-.icon-31quanbushangpin:before {
-  content: "\f0219";
-}
-
-.icon-tongzhi:before {
-  content: "\e759";
-}
-
-.icon-shezhi:before {
-  content: "\e68f";
-}
-
-.icon-dian9gedian:before {
-  content: "\e6f8";
-}
-
-.icon-3dtouchshangpinliebiao:before {
-  content: "\e609";
+.icon-xiala:before {
+  content: "\e6b9";
 }
 
 .icon-caidan:before {
-  content: "\e62c";
+  content: "\e682";
 }
 
-.icon-zhedie:before {
-  content: "\e63d";
+.icon-ketangxueyuan:before {
+  content: "\e60d";
 }
 
-.icon-shangshengzengjia:before {
-  content: "\e776";
+.icon-close:before {
+  content: "\e611";
 }
 
-.icon-xiajiangjianshao:before {
-  content: "\e777";
+.icon-youcecaidan:before {
+  content: "\e606";
 }
 
-.icon-dingdanliebiao:before {
-  content: "\e668";
+.icon-yonghu:before {
+  content: "\e697";
 }
 
-.icon-shangpinliebiao:before {
-  content: "\e60a";
+.icon-shezhi:before {
+  content: "\e892";
 }
 
-.icon-cangkukucun:before {
-  content: "\e633";
+.icon-caidan1:before {
+  content: "\e63a";
 }
 
-.icon-xialacaidan:before {
-  content: "\e663";
+.icon-shujukanban:before {
+  content: "\eb66";
 }
 
-.icon-zhediejiantou_Black2x:before {
-  content: "\e605";
+.icon-caidan2:before {
+  content: "\e643";
+}
+
+.icon-tongzhi:before {
+  content: "\e615";
+}
+
+.icon-tuichu:before {
+  content: "\e634";
 }
 

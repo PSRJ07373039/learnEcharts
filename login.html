@@ -6,52 +6,77 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/iconfont/iconfont.css">
+  <link rel="stylesheet" href="./assets/css/login.css">
 </head>
 
 <body>
-  <h1>登录</h1>
-  <form action="" class="register">
-    <input type="text" name="username">
-    <input type="text" name="password">
-    <button>注册</button>
-  </form>
-  <hr>
-  <form action="" class="login">
-    <input type="text" name="username">
-    <input type="text" name="password">
-    <button>登录</button>
-  </form>
-  <hr>
-  <button type="button" id="init">初始化</button>
+
+  <div class="area">
+    <div class="top">
+      <img src="./assets/images/logo2.png" class="col-6" alt="">
+      <h1>学员管理系统</h1>
+    </div>
+    <div class="row">
+      <div class="left">
+        <img src="./assets/images/slogan.png" alt="">
+      </div>
+      <div class="form-box">
+        <div class="register box">
+          <div class="container row header mb-4">
+            <h2>欢迎注册</h2>
+          </div>
+          <form action="" class="container">
+            <!-- 账号 -->
+            <div class="row mb-4 form-group">
+              <span class="iconfont icon-yonghu"></span>
+              <input type="text" class="form-control" />
+            </div>
+            <!-- 密码 -->
+            <div class="row mb-4 form-group">
+              <span class="iconfont icon-mima"></span>
+              <input type="password" class="form-control" />
+            </div>
+            <div class="row mb-4">
+              <button type="submit" class="btn btn-primary">注册</button>
+            </div>
+            <div class="row mb-3">
+              <a href="javascript:;">已有账号，去登录</a>
+            </div>
+          </form>
+        </div>
+
+        <div class="login box">
+          <div class="container row header mb-4">
+            <h2>欢迎登录</h2>
+          </div>
+          <form action="" class="container">
+            <!-- 账号 -->
+            <div class="row mb-4 form-group">
+              <span class="iconfont icon-yonghu"></span>
+              <input type="text" class="form-control" />
+            </div>
+            <!-- 密码 -->
+            <div class="row mb-4 form-group">
+              <span class="iconfont icon-mima"></span>
+              <input type="password" class="form-control" />
+            </div>
+            <div class="row mb-4">
+              <button type="submit" class="btn btn-primary">登录</button>
+            </div>
+            <div class="row mb-3">
+              <a href="javascript:;">还没有账号，去注册</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <script src="./assets/lib/jquery-3.6.0.min.js"></script>
   <script src="./assets/lib/axios.js"></script>
-  <script src="./assets/js/common.js"></script>
-  <script>
-    // 注册
-    $('.register').on('submit', function (e) {
-      e.preventDefault();
-      axios.post('/api/register', $(this).serialize()).then(({ data: res }) => {
-        console.log(res);
-      });
-    })
-
-    // 登录
-    $('.login').on('submit', function (e) {
-      e.preventDefault();
-      axios.post('/api/login', $(this).serialize()).then(({ data: res }) => {
-        localStorage.setItem('token', res.token);
-        console.log(res);
-      });
-    })
-
-    // 初始化
-    $('#init').on('click', function () {
-      axios.get('/init/data').then(result => {
-        console.log(result);
-      })
-    })
-  </script>
 </body>
 
 </html>
