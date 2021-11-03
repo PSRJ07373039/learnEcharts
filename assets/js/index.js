@@ -27,23 +27,3 @@ function toggleSlide() {
 
 toggleSlide();
 
-
-// ------------------------ 初始化数据 -------------------
-$('.init').on('click', function () {
-  axios.get('/init/data').then(({ data: res }) => {
-    if (res.code === 0) {
-      toastr.success(res.message);
-      toastr.onHidden = function () {
-        location.reload();
-      }
-    }
-  })
-})
-
-
-// ------------------------ 退出登录 -------------------
-$('.logout a').on('click', function () {
-  if (!confirm('确定要退出登录吗？')) return;
-  localStorage.removeItem('token');
-  location.href = './login.html';
-})
