@@ -1,14 +1,3 @@
-// function setHtmlFont() {
-//   let html = document.querySelector('html');
-//   let deviceWidth = html.clientWidth;
-//   let fontSize = deviceWidth / 80 + 'px';
-//   html.style.fontSize = fontSize;
-// }
-
-// setHtmlFont();
-
-// window.onresize = () => setHtmlFont();
-
 /**
  * 侧边导航关闭折叠控制
  */
