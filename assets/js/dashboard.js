@@ -7,7 +7,90 @@ $('.bar .title ul').on('click', function () {
   $(this).hide();
 })
 
-~function () {
+
+// ---------------------------------- Ajax请求数据 ----------------------------------
+// 获取班级概况数据
+axios.get('/student/overview').then(({ data: res }) => {
+  // console.log(res);
+  let { code, data } = res;
+  if (code === 0) {
+    $('.overview .total').text(data.total);
+    $('.overview .avgAge').text(data.avgAge);
+    $('.overview .avgSalary').text(data.avgSalary);
+    $('.overview .proportion').text(data.proportion);
+  }
+})
+
+// 获取学员信息  ==> 1、提取期望薪资和实际薪资，做折线图;  2、提取地区，做饼图;  3、提取地区和经纬度，做地图
+axios.get('/student/list').then(({ data: res }) => {
+  let { code, data } = res;
+  if (code === 0) {
+    // 折线图所需数据
+    let lineData = {
+      xAxis: [],
+      salary: [],
+      truesalary: []
+    };
+
+    // 饼图所需数据
+    let pieArr = [];
+
+    // 地图所需数据
+    let geoCoordMap = { '北京市': [116.2529, 39.5420] };
+    let BJData = [[
+      { name: '北京市' },
+      { name: '北京市', value: 200 }
+    ]];
+
+    // console.log(data);
+    data.forEach(item => {
+      lineData.xAxis.push(item.name);
+      lineData.salary.push(item.salary);
+      lineData.truesalary.push(item.truesalary);
+
+      pieArr.push(item.province);
+      geoCoordMap[item.county] = [item.jing, item.wei];
+      BJData.push([
+        { name: '北京市' },
+        { name: item.county, value: 90 }
+      ])
+    });
+
+    // 计算每个地区的人数
+    let pieData = [];
+    pieArr.reduce((total, item) => {
+      let i;
+      if ((i = pieData.findIndex(v => v.name === item)) >= 0) {
+        pieData[i].value++;
+      } else {
+        pieData.push({ value: 1, name: item })
+      }
+    }, pieData)
+
+    // console.log(pieData);
+
+    // 数据处理好，调用图表函数
+    pieChart(pieData);
+    lineChart(lineData);
+    mapChart(geoCoordMap, BJData);
+  }
+})
+
+// 按组获取分数，做柱状图
+$('#batch a').on('click', function () {
+  let batch = $(this).index() + 1;
+  axios.get('/score/batch', { params: { batch } }).then(({ data: res }) => {
+    let { data, code } = res;
+    if (code === 0) {
+      // console.log(data);
+      barChart(data);
+    }
+  })
+})
+$('#batch a').eq(0).trigger('click');
+
+
+function lineChart({ xAxis, salary, truesalary }) {
   let myChart = echarts.init(document.querySelector('.line'));
   let option = {
     title: {
@@ -29,7 +112,7 @@ $('.bar .title ul').on('click', function () {
       axisTick: {
         alignWithLabel: true, // 刻度线和文字（标签）对齐
       },
-      data: ['张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥', '张三', '李四', '小明', '小花', '晓红', '狗哥',]
+      data: xAxis,
     },
     yAxis: {
       type: 'value'
@@ -47,14 +130,14 @@ $('.bar .title ul').on('click', function () {
     ],
     series: [
       {
-        data: [820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520, 820, 1232, 301, 1134, 1290, 1630, 520],
+        data: salary,
         type: 'line',
         smooth: true,
         name: '预期薪资',
         symbol: 'none', // 线上的表示，可以是圆、空心圆、箭头、方框等
       },
       {
-        data: [1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520, 1220, 732, 1101, 534, 1490, 1030, 1520],
+        data: truesalary,
         type: 'line',
         smooth: true,
         name: '实际薪资',
@@ -63,9 +146,9 @@ $('.bar .title ul').on('click', function () {
     ]
   };
   myChart.setOption(option);
-}();
+};
 
-~function () {
+function barChart({ avgScore, group, gt60, gt80, lt60 }) {
   let myChart = echarts.init(document.querySelector('.barChart'));
   let option = {
     color: ['#5470c6', '#95d178', '#fac858', '#73c0de'],
@@ -79,7 +162,7 @@ $('.bar .title ul').on('click', function () {
     tooltip: {},
     xAxis: {
       type: 'category',
-      data: ['1组', '2组', '3组', '4组', '5组', '6组', '7组', '8组', '9组', '10组']
+      data: group,
     },
     yAxis: [
       {
@@ -103,28 +186,28 @@ $('.bar .title ul').on('click', function () {
     ],
     series: [
       {
-        data: [82, 65, 54, 78, 87, 90, 66, 90, 59, 94],
+        data: avgScore,
         type: 'bar',
         barWidth: '15%',
         name: '平均分',
         yAxisIndex: 0,
       },
       {
-        data: [3, 2, 4, 3, 1, 0, 3, 6, 2, 1],
+        data: lt60,
         type: 'bar',
         barWidth: '15%',
         name: '低于60分人数',
         yAxisIndex: 1,
       },
       {
-        data: [2, 4, 2, 5, 3, 3, 3, 1, 3, 4],
+        data: gt60,
         type: 'bar',
         barWidth: '15%',
         name: '60~80分人数',
         yAxisIndex: 1,
       },
       {
-        data: [5, 4, 4, 2, 6, 7, 4, 3, 5, 5],
+        data: gt80,
         type: 'bar',
         barWidth: '15%',
         name: '80分以上人数',
@@ -133,9 +216,9 @@ $('.bar .title ul').on('click', function () {
     ]
   };
   myChart.setOption(option);
-}();
+};
 
-~function () {
+function pieChart(pieData) {
   let myChart = echarts.init(document.querySelector('.pie'));
   let option = {
     title: {
@@ -150,7 +233,7 @@ $('.bar .title ul').on('click', function () {
     },
     series: [
       {
-        name: 'Area Mode',
+        name: '人数分布概览',
         type: 'pie',
         radius: ['10%', '60%'],
         center: ['50%', '50%'],
@@ -158,20 +241,14 @@ $('.bar .title ul').on('click', function () {
         itemStyle: {
           borderRadius: 3
         },
-        data: [
-          { value: 30, name: '北京' },
-          { value: 28, name: '河北' },
-          { value: 26, name: '山东' },
-          { value: 24, name: '山西' },
-          { value: 22, name: '河南' },
-          { value: 20, name: '甘肃' },
-          { value: 18, name: '辽宁' },
-          { value: 16, name: '黑龙江' }
-        ]
+        data: pieData
       }
     ]
   };
   myChart.setOption(option);
-}();
+};
+
+
+
 
 
