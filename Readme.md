@@ -23,7 +23,7 @@
   - master 默认模板
   - dev 包括完整功能
 
-  ```
+  ```bash
   # 克隆master分支
   git clone git@gitee.com:laotang1234/data-visualization-211025.git
   或
@@ -51,17 +51,14 @@
 - 性能好可流畅运行PC与移动设备
 - 兼容主流浏览器
 - 提供很多常用图表，且可**定制**。
-  - [折线图](https://www.echartsjs.com/zh/option.html#series-line)、[柱状图](https://www.echartsjs.com/zh/option.html#series-bar)、[散点图](https://www.echartsjs.com/zh/option.html#series-scatter)、[饼图](https://www.echartsjs.com/zh/option.html#series-pie)、[K线图](https://www.echartsjs.com/zh/option.html#series-candlestick)
-
-
 
 ## Echarts-体验
 
-官方教程：[五分钟上手ECharts](https://www.echartsjs.com/zh/tutorial.html#5 分钟上手 ECharts)
+官方教程：[五分钟上手ECharts](https://echarts.apache.org/handbook/zh/get-started/)
 
 自己步骤：
 
-- 下载echarts  https://github.com/apache/incubator-echarts/tree/4.5.0  
+- 下载echarts  https://echarts.apache.org/zh/download.html
 - 引入echarts  `dist/echarts.min.js`
 - 准备一个具备大小（宽高）的 DOM
 
@@ -298,7 +295,7 @@ option = {
 - 增加图例
 - X轴刻度线和文字（标签）对齐
 
-## Echart-柱状图
+## Echarts-柱状图
 
 ### 步骤分析
 
@@ -400,4 +397,34 @@ option = {
 - 调整网格（图表的宽高）
   - 上下 30，左右 8%
 - 自定义颜色
+
+## Echarts社区
+
+> 社区就是一些，活跃的echart使用者，交流和贡献定制好的图表的地方。
+
+在这里可以找到一些基于echart的高度定制好的图表，相当于基于jquery开发的插件，这里是基于echarts开发的第三方的图表。
+
+社区示例：https://www.makeapie.com/explore.html
+
+![image-20211104205619163](Readme.assets/image-20211104205619163.png)
+
+## Echarts-使用社区的示例
+
+项目中使用的社区示例地址：https://www.makeapie.com/editor.html?c=xD4a1EBnvW
+
+重点：
+
+- 使用社区示例，必须要查看示例引入了哪些外部js文件。
+
+实现步骤：
+
+- 第一需要下载china.js提供中国地图的js文件
+- 导入后，使用社区提供的配置即可。
+- 自行修改。
+
+必须知道的结论：
+
+- 哪些数据和哪些数据是对应的，必须一致
+- 哪些数据能多，能错
+- 哪些数据不能多，不能错
 
