@@ -1,4 +1,4 @@
-## 项目介绍123
+## 项目介绍
 
 - 应对现在数据可视化的趋势，越来越多企业需要在很多场景(营销数据，生产数据，用户数据)下使用，可视化图表来展示体现数据，让数据更加直观，数据特点更加突出。
 
@@ -427,4 +427,336 @@ option = {
 - 哪些数据和哪些数据是对应的，必须一致
 - 哪些数据能多，能错
 - 哪些数据不能多，不能错
+
+## 插件介绍
+
+### 表单验证插件
+
+- 表单验证插件有很多，不同的框架中选择的也不一样。
+- 案例中，表单验证使用的是 [bootstrapValidator](https://gitee.com/psccja/bootstrapvalidator) 插件。（链接挂的是码云仓库地址）
+- 网上有很多关于它的介绍，比如[这里](https://www.zhuangyan.cn/BootstrapValidator-guide/) 和 [这里](https://www.yisu.com/zixun/153358.html)。
+- 经过整理，总结它的使用步骤如下：
+
+使用步骤：
+
+1. 引入 bootstrapValidator.css 和 bootstrapValidator.js 
+
+2. 编写验证代码，为了方便，可以封装进一个函数
+
+   ```js
+   // 比如，验证一个用户名和密码
+   function register() {
+     return {
+       fields: {
+         username: { // 这里username是 input 的name属性值，表示对这个输入框进行验证
+           validators: {
+             notEmpty: {   //不能为空
+               message: '用户名不能为空.'
+             },
+             stringLength: {   //检测长度
+               min: 2,
+               max: 15,
+               message: '用户名需要2~15个字符'
+             }
+           }
+         },
+         password: {
+           validators: {
+             notEmpty: {
+               message: '密码不能为空'
+             },
+             stringLength: {   //检测长度
+               min: 6,
+               max: 15,
+               message: '密码需要6~15个字符'
+             }
+           }
+         }
+       }
+     }
+   }
+   ```
+
+3. 使用插件语法，监听表单提交事件，并使用验证
+
+   ```js
+   // 语法：
+   // $('表单').bootstrapValidator(上面的验证函数()).on('success.form.bv', function (e) {}
+   
+   // 比如，注册
+   $('.register form').bootstrapValidator(test()).on('success.form.bv', function (e) {
+       e.preventDefault();
+       // 通过验证，这里的代码将会执行。我们将Ajax请求的代码放到这里即可
+   });
+   ```
+
+   
+
+### 提示框插件
+
+- 提示框插件有很多，不同的框架中选择的也不一样。
+- 案例中，提示框使用的是 [toastr](https://codeseven.github.io/toastr/demo.html) 插件。(挂的是GitHub链接，可能打不开)
+- 总结它的使用步骤如下：
+
+使用步骤：
+
+1. 加载 toastr.css 和 toastr.js 文件
+
+2. 全局配置。为方便，我们将下面的配置放到 assets/utils/toastr.js 中，使用时，加载这个配置文件即可
+
+   ```js
+   toastr.options = {
+     // "closeButton": false,
+     // "debug": false,
+     // "newestOnTop": false,
+     // "progressBar": false,
+     "positionClass": "toast-top-right", // 提示框位置，这里填类名
+     // "preventDuplicates": false,
+     // "onclick": null,
+     "showDuration": "300",              // 提示框渐显所用时间
+     "hideDuration": "300",              // 提示框隐藏渐隐时间
+     "timeOut": "2000",                  // 提示框持续时间
+     // "extendedTimeOut": "1000",
+     // "showEasing": "swing",
+     // "hideEasing": "linear",
+     // "showMethod": "fadeIn",
+     // "hideMethod": "fadeOut"
+   }
+   ```
+
+3. 调用方法，直接使用
+
+   ```js
+   toastr.info('提示信息');                // 普通提示
+   toastr.success('提示信息');             // 成功提示
+   toastr.warning('提示信息');             // 警告提示
+   toastr.error('提示信息');               // 错误提示
+   ```
+
+   
+
+## 配置Axios项目根路径
+
+- 目前echarts图表中的数据都是假数据
+
+- 如果获取真数据就需要调用接口
+
+- 这就需要至少要完成注册、登录、初始化数据等接口的调用才行
+
+- 项目中接口根路径是相同的，见前文 [重要的三个地址](##重要的三个地址) 
+
+- 所以，在 `assets/utils` 文件夹，创建axios的配置文件，取名 `request.js` 。代码如下：
+
+  ```js
+  axios.defaults.baseURL = 'http://www.itcbc.com:8000';
+  ```
+
+  > 这里之所以放到 assets/utils 文件夹中，是因为 utils 在编程中常用来放工具函数。而request是请求的意思。
+
+## 注册账号
+
+### 切换登录和注册的盒子
+
+登录和注册同在 login.html 中，因为定位的原因重叠在一起了。我们可以通过JS实现切换两个盒子
+
+```js
+// 切换两个盒子
+$('.box a').on('click', function () {
+    $(this).parents('.box').hide().siblings('.box').show();
+})
+```
+
+### 表单验证
+
+- 表单验证，见上文的 [插件介绍](##插件介绍) 中的 [表单验证插件](###表单验证插件) 。（这里的示例可以直接当做注册和登录的验证代码）
+
+### 完成注册
+
+当表单验证通过后，根据接口文档，获取输入框的账号和密码，Ajax提交账号和密码
+
+```js
+$('.register form').bootstrapValidator(register()).on('success.form.bv', function (e) {
+  e.preventDefault();
+  // 通过验证，这里的代码将会执行。我们将Ajax请求的代码放到这里即可
+  let data = $(this).serialize();
+  // console.log(data);
+  axios.post('/api/register', data).then(({ data: res }) => {
+    // console.log(res);
+    if (res.code === 0) { // 我们只考虑成功的情况即可，失败的情况后续统一使用拦截器处理
+      toastr.success(res.message); // 使用插件提示消息
+      $('.register input').val(''); // 清空输入框
+      $('.register').hide().next().show(); // 切换至登录的盒子
+    }
+  })
+});
+```
+
+## 登录功能
+
+- 因为前文已经完成了注册，所以这里的登录功能极为简单
+- 问题是，登录如果成功，该做什么？
+  - 将服务器响应的token存储到本地存储（关于token的说明见下文的 [JWT身份认证](##JWT身份认证)）
+  - 跳转到 index.html 页面 （页面跳转，只考虑两个html之间的相对关系，不考虑js在哪里）
+
+登录的代码如下：
+
+```js
+$('.login form').bootstrapValidator(register()).on('success.form.bv', function (e) {
+    e.preventDefault();
+    //提交逻辑
+    // console.log(222);
+    let data = $(this).serialize();
+    // console.log(data);
+    axios.post('/api/login', data).then(({ data: res }) => {
+        // console.log(res);
+        if (res.code === 0) {
+            localStorage.setItem('token', res.token);
+            location.href = './index.html'
+        }
+    })
+});
+```
+
+## JWT身份认证
+
+### 什么是jwt身份认证
+
+在前后端分离模式的开发中，服务器如何知道来访者的身份呢？
+
+- 在登录后，服务器会响应给用户一个 令牌 （token）
+- 令牌中会包括该用户的id等唯一标识
+- 浏览器收到令牌后，自己保存
+- 下次请求其他接口时，（在请求头中）携带这个令牌去请求
+- 这样服务器就知道来访者的身份了，服务器就会为该用户开发接口的访问权限，并处理该用户的数据
+
+> 这样，就明白为什么登录后，要将token保存到本地存储中了。
+
+### 全局配置请求头
+
+由于除了登录和注册接口外，其他所有接口都需要身份认证（都需要我们提供令牌），所以我们可以在 `request.js` 中，全局配置请求头。
+
+```js
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+```
+
+### 利用令牌控制页面的访问权限
+
+浏览器端，可以通过合理使用令牌，控制页面的访问权限。
+
+比如，用户默认只能访问登录和注册页，如果不登录就不能访问首页，怎么做？
+
+第一个判断：判断本地存储是否有token
+
+```html
+<!-- index.html -->
+<!-- 本地存储有token，则说明用户登录了；没有token，则说明用户没有登录，不允许访问首页 -->
+<script>
+  if (localStorage.getItem('token') === null) location.href = './login.html'
+</script>
+```
+
+第二个判断：根据服务器响应结果，判断token是否是假token或者过期的token
+
+```js
+// request.js 中，使用响应拦截器，拦截响应结果进行判断
+// 如果响应结果中 code === 0 && message === '身份认证失败' 则表示浏览器使用了无效的token
+// 添加响应拦截器
+axios.interceptors.response.use(function (response) {
+    // 对响应数据做点什么
+    if (response.data.code === 1) {
+        toastr.warning(response.data.message)
+    }
+    return response;
+}, function (error) {
+    // 对响应错误做点什么
+    if (error.response) {
+        if (error.response.data.message === '身份认证失败') {
+            localStorage.removeItem('token');
+            location.href = './login.html'
+        } else {
+            toastr.error(error.response.data.message);
+        }
+    }
+    return Promise.reject(error);
+});
+```
+
+## 退出登录
+
+一般来说，退出需要做的事和登录后做的事刚好相反。
+
+- 登录后，在本地存储了token；退出时，移除这个token
+- 登录后，跳转到了 index.html 页面；退出时，跳转到 login.html
+
+```js
+// ------------------------ 退出登录 -------------------
+$('.logout a').on('click', function () {
+  if (!confirm('确定要退出登录吗？')) return;
+  localStorage.removeItem('token');
+  location.href = './login.html';
+})
+```
+
+## 初始化数据
+
+为了减少手动录入数据的时间，特别设计了此接口。调用此接口将为你随机添加56名同学，并分为8个组。并为每位同学随机添加了三次成绩。
+
+```js
+// ------------------------ 初始化数据 -------------------
+$('.init').on('click', function () {
+  axios.get('/init/data').then(({ data: res }) => {
+    if (res.code === 0) {
+      toastr.success(res.message);
+    }
+  })
+})
+```
+
+## 班级概况
+
+- 查阅接口文档，发现服务器已经将数据计算整理完毕，提供了现成的接口。
+- 所以我们前端开发者，只需要调用接口，并将数据展示到页面中即可。
+
+```js
+// 获取班级概况数据
+axios.get('/student/overview').then(({ data: res }) => {
+  // console.log(res);
+  let { code, data } = res;
+  if (code === 0) {
+    $('.overview .total').text(data.total);
+    $('.overview .avgAge').text(data.avgAge);
+    $('.overview .avgSalary').text(data.avgSalary);
+    $('.overview .proportion').text(data.proportion);
+  }
+})
+```
+
+## 柱状图使用接口数据
+
+- 这个接口和班级概况一样，服务器已经将数据整理完毕。
+- 所以我们前端开发者，只需要调用接口获取数据，并将数据传递给 echarts 即可。
+- 不过，接口需要一个 batch 参数（考试的次数），所以需要先将下拉菜单处理一下。
+
+```js
+// 下拉菜单
+$('.bar .btn').on('click', function () {
+  $(this).next('ul').toggle();
+})
+
+// 点击 “第n次成绩” 按钮，获取该次考试成绩
+$('#batch li').on('click', function () {
+  let batch = $(this).index() + 1; // 取得当前li元素在兄弟间的位置，即索引，加1后，刚好当做考试次数
+  $(this).parent().hide();
+  axios.get('/score/batch', { params: { batch } }).then(({ data: res }) => {
+    let { data, code } = res;
+    if (code === 0) {
+      // console.log(data);
+      barChart(data);
+    }
+  })
+})
+
+// 页面加载后，触发第一个li的单击事件
+$('#batch li').eq(0).trigger('click');
+```
 
