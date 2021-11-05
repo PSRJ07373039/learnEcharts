@@ -629,6 +629,8 @@ $('.login form').bootstrapValidator(register()).on('success.form.bv', function (
 - 下次请求其他接口时，（在请求头中）携带这个令牌去请求
 - 这样服务器就知道来访者的身份了，服务器就会为该用户开发接口的访问权限，并处理该用户的数据
 
+![image-20211105181154390](Readme/image-20211105181154390.png)
+
 > 这样，就明白为什么登录后，要将token保存到本地存储中了。
 
 ### 全局配置请求头
