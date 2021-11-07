@@ -514,7 +514,7 @@ let option = {
 
 社区示例：https://www.makeapie.com/explore.html
 
-![image-20211104205619163](Readme.assets/image-20211104205619163.png)
+![image-20211104205619163](Readme/image-20211104205619163.png)
 
 ## Echarts-使用社区的示例
 
@@ -760,6 +760,8 @@ axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 比如，用户默认只能访问登录页，如果不登录就不能访问首页，怎么做？
 
+![image-20211107100520701](Readme/image-20211107100520701.png)
+
 **第一个判断**：判断本地存储是否有token
 
 ```html
@@ -779,13 +781,10 @@ axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 
 ```js
 // request.js 中，使用响应拦截器，拦截响应结果进行判断
-// 如果响应结果中 code === 0 && message === '身份认证失败' 则表示浏览器使用了无效的token
+// 如果响应结果中 code === 1 && message === '身份认证失败' 则表示浏览器使用了无效的token
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
     // 对响应数据做点什么
-    if (response.data.code === 1) {
-        toastr.warning(response.data.message)
-    }
     return response;
 }, function (error) {
     // 对响应错误做点什么
@@ -793,8 +792,6 @@ axios.interceptors.response.use(function (response) {
         if (error.response.data.message === '身份认证失败') {
             localStorage.removeItem('token');
             location.href = './login.html'
-        } else {
-            toastr.error(error.response.data.message);
         }
     }
     return Promise.reject(error);
@@ -814,7 +811,7 @@ axios.interceptors.response.use(function (response) {
 
 ```diff
 // request.js 中，使用响应拦截器，拦截响应结果进行判断
-// 如果响应结果中 code === 0 && message === '身份认证失败' 则表示浏览器使用了无效的token
+// 如果响应结果中 code === 1 && message === '身份认证失败' 则表示浏览器使用了无效的token
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
     // 对响应数据做点什么
@@ -928,7 +925,7 @@ $('#batch li').eq(0).trigger('click');
   let option = {
     xAxis: {
       type: 'category',
-      data: group, // X轴使用组名 1组 2组 3组 ......
++      data: group, // X轴使用组名 1组 2组 3组 ......
     },
     series: [
       {
