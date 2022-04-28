@@ -22,13 +22,17 @@ function toggleSlide() {
   })
 }
 toggleSlide()
-
-// 配置axios根路径
-axios.defaults.baseURL = 'http://www.itcbc.com:8000'
+// 退出功能
+$('.logout a').on('click', function () {
+  // 清除本地token
+  localStorage.removeItem('token')
+  // 跳转到登录页面
+  location.href = './login.html'
+})
 // 数据初始化按钮
-const init = document.querySelector('.init')
-init.addEventListener('click', function () {
-  axios.get('/init/data').then(function (res) {
+$('.init').on('click', function () {
+  axios.get('/init/data').then(({ data: res }) => {
     console.log(res)
+    if (res.code === 0) toastr.success(res.message)
   })
 })

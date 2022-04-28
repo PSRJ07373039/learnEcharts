@@ -1,98 +1,319 @@
-// 薪水折线图
-const optionLine = {
-  // 鼠标移入提示
-  tooltip: {
-    trigger: 'axis',
-    position: function (pt) {
-      return [pt[0], '10%']
-    },
-  },
-  // 标题
-  title: {
-    text: '薪资 Salary',
-    textStyle: {
-      color: '#6d767e',
-    },
-  },
-  // 图例
-  legend: {
-    top: 20,
-  },
-  // x轴
-  xAxis: {
-    type: 'category',
-    boundaryGap: false, // x轴两边的留白策略，false表示不留空白
-    data: [
-      '张三',
-      '李四',
-      '张飞',
-      '赵云',
-      '狗哥',
-      '张三',
-      '李四',
-      '张飞',
-      '赵云',
-      '狗哥',
-      '张三',
-      '李四',
-      '张飞',
-      '赵云',
-      '狗哥',
-      '张三',
-      '李四',
-      '张飞',
-      '赵云',
-      '狗哥',
-    ],
-  },
-  // y轴
-  yAxis: {
-    type: 'value',
-    // Y轴类型为value，则留白策略指的是对数据的延伸
-    boundaryGap: [0, '50%'],
-  },
-  // 数据缩放
-  dataZoom: [
-    {
-      type: 'inside', //内置到坐标轴
-      start: 0,
-      end: 15,
-    },
-    {
-      //type: 'slider',//默认类型
-      start: 0,
-      end: 15,
-    },
-  ],
-  series: [
-    {
-      name: '期望薪资',
-      type: 'line',
-      //smooth: true, // 表示使用平滑曲线
-      symbol: 'none', // 线上拐点样式
-      sampling: 'lttb', // 降采样策略
-      itemStyle: {
-        color: '#ee6666', //折线颜色
+// 班级概览
+axios.get('/student/overview').then(({ data: res }) => {
+  let { code, data } = res
+  if (code === 0) {
+    document.querySelector('.total').innerText = data.total
+    document.querySelector('.avgSalary').innerHTML = data.avgSalary
+    document.querySelector('.avgAge').innerHTML = data.avgAge
+    document.querySelector('.proportion').innerHTML = data.proportion
+  }
+})
+// 获取学员信息
+axios.get('student/list').then(({ data: res }) => {
+  const names = []
+  const salarys = []
+  const truesalarys = []
+  const areas = []
+  res.data.forEach((item) => {
+    names.push(item.name)
+    salarys.push(item.salary)
+    truesalarys.push(item.truesalary)
+    areas.push(item.province)
+  })
+  lineChart(names, salarys, truesalarys)
+  pieChart(homeTown(areas))
+})
+// 第n次成绩选择
+$('.btn').on('click', function () {
+  $('#batch').toggle()
+})
+$('#batch li').on('click', function () {
+  let index = $(this).index() + 1
+  $('#batch').hide()
+  axios
+    .get('/score/batch', {
+      params: {
+        batch: index,
       },
-      data: [
-        8300, 9600, 15000, 17000, 12000, 8300, 9600, 15000, 17000, 12000, 8300,
-        9600, 15000, 17000, 12000, 8300, 9600, 15000, 17000, 12000,
-      ],
-    },
-    {
-      name: '实际薪资',
-      type: 'line',
-      //smooth: true, // 表示使用平滑曲线
-      symbol: 'none', // 线上拐点样式
-      sampling: 'lttb', // 降采样策略
-      itemStyle: {
-        color: '#5470c6', //折线颜色
-      },
-      data: [
-        9600, 15000, 17000, 12000, 8300, 9600, 15000, 17000, 12000, 8300, 9600,
-        15000, 17000, 12000, 8300, 9600, 15000, 17000, 12000, 13000,
-      ],
-    },
-  ],
+    })
+    .then(({ data: res }) => {
+      const group = res.data.group
+      const avgScore = res.data.avgScore
+      const lt60 = res.data.lt60
+      const gt60 = res.data.gt60
+      const gt80 = res.data.gt80
+      barChart(group, avgScore, lt60, gt60, gt80)
+    })
+})
+// 页面加载后，触发第一个li的单击事件
+$('#batch li').eq(0).trigger('click')
+// 计算省份/地区各自比例,保存为echarts需要的格式
+function homeTown(arr) {
+  const obj = {}
+  arr.forEach((item) => {
+    obj[item] = obj[item] ? obj[item] + 1 : 1
+  })
+  // console.log(obj)
+  const newArr = []
+  for (let k in obj) {
+    let item = {}
+    item.value = obj[k]
+    item.name = k
+    newArr.push(item)
+  }
+  return newArr
 }
-echarts.init(document.querySelector('.line')).setOption(optionLine)
+// 薪水折线图
+function lineChart(names, salarys, truesalarys) {
+  const option = {
+    // 鼠标移入提示
+    tooltip: {
+      trigger: 'axis',
+      position: function (pt) {
+        return [pt[0], '10%']
+      },
+    },
+    // 标题
+    title: {
+      text: '薪资 Salary',
+      textStyle: {
+        color: '#6d767e',
+      },
+    },
+    // 图例
+    legend: {
+      top: 20,
+    },
+    // x轴
+    xAxis: {
+      type: 'category',
+      boundaryGap: false, // x轴两边的留白策略，false表示不留空白
+      data: names,
+      // data: [
+      //   '张三',
+      //   '李四',
+      //   '张飞',
+      //   '赵云',
+      //   '狗哥',
+      //   '张三',
+      //   '李四',
+      //   '张飞',
+      //   '赵云',
+      //   '狗哥',
+      //   '张三',
+      //   '李四',
+      //   '张飞',
+      //   '赵云',
+      //   '狗哥',
+      //   '张三',
+      //   '李四',
+      //   '张飞',
+      //   '赵云',
+      //   '狗哥',
+      // ],
+    },
+    // y轴
+    yAxis: {
+      type: 'value',
+      // Y轴类型为value，则留白策略指的是对数据的延伸
+      boundaryGap: [0, '50%'],
+    },
+    // 数据缩放
+    dataZoom: [
+      {
+        type: 'inside', //内置到坐标轴
+        start: 0,
+        end: 15,
+      },
+      {
+        //type: 'slider',//默认类型
+        start: 0,
+        end: 15,
+      },
+    ],
+    series: [
+      {
+        name: '期望薪资',
+        type: 'line',
+        smooth: true, // 表示使用平滑曲线
+        symbol: 'none', // 线上拐点样式
+        sampling: 'lttb', // 降采样策略
+        itemStyle: {
+          color: '#ee6666', //折线颜色
+        },
+        data: salarys,
+        // data:  [
+        //   8300, 9600, 15000, 17000, 12000, 8300, 9600, 15000, 17000, 12000,
+        //   8300, 9600, 15000, 17000, 12000, 8300, 9600, 15000, 17000, 12000,
+        // ],
+      },
+      {
+        name: '实际薪资',
+        type: 'line',
+        smooth: true, // 表示使用平滑曲线
+        symbol: 'none', // 线上拐点样式
+        sampling: 'lttb', // 降采样策略
+        itemStyle: {
+          color: '#5470c6', //折线颜色
+        },
+        data: truesalarys,
+        /* data:  [
+          9600, 15000, 17000, 12000, 8300, 9600, 15000, 17000, 12000, 8300,
+          9600, 15000, 17000, 12000, 8300, 9600, 15000, 17000, 12000, 13000,
+        ], */
+      },
+    ],
+  }
+  echarts.init(document.querySelector('.line')).setOption(option)
+}
+// lineChart()
+// 成绩柱状图
+function barChart(group, avgScore, lt60, gt60, gt80) {
+  const option = {
+    // 网格（整个图表区域设置）
+    grid: {
+      top: 30,
+      bottom: 30,
+      left: '7%',
+      right: '7%',
+    },
+    // 标题
+    /* title: {
+      text: '成绩 Score',
+      textStyle: {
+        color: '#6d767e',
+      },
+    }, */
+    // 提示框
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross',
+        crossStyle: {
+          color: '#999',
+        },
+      },
+    },
+    // 图例
+    legend: {},
+    // x轴
+    xAxis: [
+      {
+        type: 'category',
+        data: group,
+        // data: ['1组', '2组', '3组', '4组', '5组', '6组', '7组'],
+        axisPointer: {
+          type: 'shadow',
+        },
+      },
+    ],
+    // y轴
+    yAxis: [
+      {
+        type: 'value',
+        min: 0,
+        max: 100,
+        interval: 10,
+        axisLabel: {
+          formatter: '{value} 分',
+        },
+      },
+      {
+        type: 'value',
+        min: 0,
+        max: 10,
+        interval: 1,
+        axisLabel: {
+          formatter: '{value} 人',
+        },
+      },
+    ],
+    // 数据部分
+    series: [
+      {
+        name: '平均分',
+        type: 'bar',
+        barWidth: '15',
+        data: avgScore,
+        // data: [83, 57, 90, 78, 66, 76, 77, 87, 69, 92, 88, 78],
+      },
+      {
+        name: '低于60分人数',
+        type: 'bar',
+        yAxisIndex: 1, // Y轴索引，1表示使用第2个Y轴
+        barWidth: '15',
+        data: lt60,
+        // data: [2, 1, 3, 4, 2, 5, 2, 2, 4, 1, 6, 2],
+      },
+      {
+        name: '60到80分之间',
+        type: 'bar',
+        yAxisIndex: 1, // Y轴索引，1表示使用第2个Y轴
+        barWidth: '15',
+        data: gt60,
+        // data: [1, 4, 2, 4, 5, 2, 1, 3, 3, 2, 2, 4],
+      },
+      {
+        name: '高于80分人数',
+        type: 'bar',
+        yAxisIndex: 1, // Y轴索引，1表示使用第2个Y轴
+        barWidth: '15',
+        data: gt80,
+        // data: [3, 2, 1, 5, 1, 2, 3, 4, 5, 2, 2, 4],
+      },
+    ],
+  }
+  echarts.init(document.querySelector('.barChart')).setOption(option)
+}
+// barChart()
+// 籍贯饼状图
+function pieChart(datas) {
+  const option = {
+    // 标题
+    title: {
+      text: '籍贯 Hometown',
+      textStyle: {
+        color: '#6d767e',
+      },
+    },
+    // 提示框
+    tooltip: {
+      // {a} 表示series中的name
+      // {b} 表示数据中的series.data中的name
+      // {c} 表示每一项的值
+      // {d} 表示百分比
+      formatter: '{a} <br />{b} <strong>{c}</strong>人 占比{d}%',
+    },
+    series: [
+      {
+        name: '各地学员分布',
+        type: 'pie', // pie 表示饼图
+        radius: ['10%', '65%'], // 内外圈的半径
+        center: ['50%', '50%'],
+        roseType: 'area', // area表示面积模式，radius表示半径模式
+        itemStyle: {
+          borderRadius: 4, // 扇形边缘圆角设置
+        },
+        data: datas,
+        // data: [
+        //   { value: 40, name: '北京' },
+        //   { value: 38, name: '山东' },
+        //   { value: 32, name: '上海' },
+        //   { value: 30, name: '江苏' },
+        //   { value: 28, name: '河北' },
+        //   { value: 26, name: '山西' },
+        //   { value: 22, name: '河南' },
+        //   { value: 18, name: '辽宁' },
+        // ],
+      },
+    ],
+  }
+  echarts.init(document.querySelector('.pie')).setOption(option)
+}
+// pieChart()
+// 地图
+function mapChart() {
+  const option = {}
+  echarts.init(document.querySelector('.map')).setOption(option)
+}
+mapChart()
