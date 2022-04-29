@@ -79,12 +79,7 @@ $('#batch li').on('click', function () {
       },
     })
     .then(({ data: res }) => {
-      const group = res.data.group
-      const avgScore = res.data.avgScore
-      const lt60 = res.data.lt60
-      const gt60 = res.data.gt60
-      const gt80 = res.data.gt80
-      barChart(group, avgScore, lt60, gt60, gt80)
+      if (res.code === 0) barChart(res.data)
     })
 })
 // 页面加载后，触发第一个li的单击事件
@@ -195,7 +190,7 @@ function lineChart(names, salarys, truesalarys) {
 }
 // lineChart()
 // 成绩柱状图
-function barChart(group, avgScore, lt60, gt60, gt80) {
+function barChart({ group, avgScore, lt60, gt60, gt80 }) {
   const option = {
     // 网格（整个图表区域设置）
     grid: {
