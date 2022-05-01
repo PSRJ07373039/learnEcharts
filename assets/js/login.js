@@ -54,7 +54,6 @@ $('.register form')
         $('.register input').val('')
         //   跳转到登录界面
         $('.register').hide().next().show()
-        //   账号已存在
       }
     })
   })
