@@ -1,9 +1,12 @@
 // 功能：渲染数据到页面
 function showData(data) {
+  parent.console.log(data)
+  let test = Object.prototype.toString.call(data)
   document.querySelector('tbody').innerHTML = ''
-  let arr = []
-  data.forEach((item) => {
-    arr.push(`<tr>
+  if (test === '[object Array]') {
+    let arr = []
+    data.forEach((item) => {
+      arr.push(`<tr>
     <th scope="row">${item.id}</th>
     <td>${item.name}</td>
     <td>${item.age}</td>
@@ -18,8 +21,26 @@ function showData(data) {
       <button type="button" class="remove btn btn-danger btn-sm" data-index=${item.id}>删除</button>
     </td>
   </tr> `)
-  })
-  document.querySelector('tbody').innerHTML = arr.join('')
+    })
+    document.querySelector('tbody').innerHTML = arr.join('')
+    // 当数据是单项时，用于id查询功能
+  } else if (test === '[object Object]') {
+    document.querySelector('tbody').innerHTML = `<tr>
+    <th scope="row">${data.id}</th>
+    <td>${data.name}</td>
+    <td>${data.age}</td>
+    <td>${data.sex}</td>
+    <td>${data.group}</td>
+    <td>${data.phone}</td>
+    <td>${data.salary}</td>
+    <td>${data.truesalary}</td>
+    <td>${data.province}${data.city}${data.county}</td>
+    <td>
+      <button type="button" class="update btn btn-primary btn-sm" data-index=${data.id} data-bs-toggle="modal" data-bs-target="#updateModal">修改</button>
+      <button type="button" class="remove btn btn-danger btn-sm" data-index=${data.id}>删除</button>
+    </td>
+  </tr> `
+  }
 }
 // 读取并显示信息
 function init() {
@@ -28,7 +49,7 @@ function init() {
     showData(res.data)
   })
 }
-init()
+// init()
 // 学员信息表单验证
 function stuInfo() {
   return {
@@ -307,8 +328,3 @@ document.querySelector('tbody').addEventListener('click', function (e) {
       })
   }
 })
-
-// 根据id查询学员
-/* axios.get('/student/one', { params: { id } }).then(({ data: res }) => {
-  showData(res.data)
-}) */
